@@ -7,8 +7,8 @@ import java.sql.Connection
 import java.sql.DriverManager
 
 class DatabaseConection {
-    fun getConnection(): Connection? {
-        var ip = "192.168.29.1"
+    fun getConnection(): Connection {
+        var ip = "10.0.2.2"
         var port = "1433"
         var user = "pandu"
         var password = "pandu123"
@@ -28,9 +28,9 @@ class DatabaseConection {
             url = "jdbc:jtds:sqlserver://$ip:$port;databaseName=$database;user=$user;password=$password"
 //            DriverManager.getConnection(url)
         } catch (e: Exception) {
-            Log.d("Conection", "Eror ${e.message}")
+            Log.d("Connection", "Eror ${e.message}")
         } catch (e: IOException) {
-            Log.d("Conection", "Eror ${e.message}")
+            Log.d("Connection", "Eror ${e.message}")
         }
 
         return DriverManager.getConnection(url)

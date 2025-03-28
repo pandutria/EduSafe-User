@@ -41,38 +41,51 @@ class LoginActivity : AppCompatActivity() {
         etPassword.setText("pandu123")
 
         btnMasuk.setOnClickListener {
+            if (etUsername.text.toString() == "" || etPassword.text.toString() == "") {
+                support.msi(this, "All fields must be filled");
+                return@setOnClickListener
+            }
+
             login(this, etUsername.text.toString(), etPassword.text.toString()).execute()
         }
     }
 
     class login(private val activity: LoginActivity, private val username: String, private val password: String) : AsyncTask<Void, Void, Void>() {
+        var isLogin = false
         override fun doInBackground(vararg p0: Void?): Void? {
-            var connection: Connection?
-            var statement: Statement
-            var resultSet: ResultSet
-
             try {
-                connection = DatabaseConection().getConnection()
+                var connection: Connection? = DatabaseConection().getConnection()
                 if (connection!= null) {
                     var query = "SELECT * FROM [User] WHERE username = '$username' and password = '$password'"
-                    statement = connection.createStatement()
-                    resultSet = statement.executeQuery(query)
+                    var statement: Statement = connection.createStatement()
+                    var resultSet: ResultSet = statement.executeQuery(query)
 
                     if (resultSet.next()) {
                         support.user_id = resultSet.getInt("id")
-                        Log.d("SqlServer", "Eror : ${support.user_id}")
-                        activity.startActivity(Intent(activity, MainActivity::class.java))
+                        isLogin = true
+//                        Log.d("SqlServer", "Eror : ${support.user_id}")
+//                        activity.startActivity(Intent(activity, MainActivity::class.java))
 
-                    } else {
-                        activity.runOnUiThread {
-                            support.msi(activity, "Username/password salah!!")
-                        }
                     }
+//                    else {
+//                        activity.runOnUiThread {
+//                            support.msi(activity, "Username/password salah!!")
+//                        }
+//                    }
                 }
             } catch (e: Exception) {
                 Log.d("SqlServer", "Eror : ${e.message}")
             }
             return null
+        }
+
+        override fun onPostExecute(result: Void?) {
+            super.onPostExecute(result)
+            if (isLogin == true) {
+                activity.startActivity(Intent(activity, MainActivity::class.java))
+            } else {
+                support.msi(activity, "Username/password salah")
+            }
         }
     }
 }
