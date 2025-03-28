@@ -8,6 +8,6 @@ data class Thread(
     var isi: String,
     var status: String,
     var created_at: String,
-    var update_at: String,
+    var update_at: String = "",
     var delete_at: String
 )

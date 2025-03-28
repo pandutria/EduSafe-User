@@ -16,6 +16,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ui.activity.KomentarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.BikinThreadActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.activity.DaftarActivity"
             android:exported="false" />
         <activity
@@ -32,7 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="false"/>
+            android:exported="false" />
     </application>
 
 </manifest>

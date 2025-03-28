@@ -2,6 +2,7 @@ package com.example.edusfe.ui.fragment
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.edusfe.R
@@ -16,6 +18,7 @@ import com.example.edusfe.adapter.ThreadAdapter
 import com.example.edusfe.model.Thread
 import com.example.edusfe.model.User
 import com.example.edusfe.network.DatabaseConection
+import com.example.edusfe.ui.activity.BikinThreadActivity
 import java.sql.Connection
 import java.sql.ResultSet
 import java.sql.Statement
@@ -32,6 +35,10 @@ class BerandaFragment : Fragment() {
         rv = view.findViewById(R.id.rv)
         showData(context as Activity, rv).execute()
 
+        view.findViewById<Button>(R.id.btnBuat).setOnClickListener {
+            startActivity(Intent(context,BikinThreadActivity::class.java))
+        }
+
         return view
     }
 
@@ -45,9 +52,9 @@ class BerandaFragment : Fragment() {
         var threadList: MutableList<Thread> = arrayListOf()
         override fun doInBackground(vararg p0: Void?): Void? {
             try {
-                var connection: Connection? = DatabaseConection().getConnection()
+                var connection: Connection = DatabaseConection().getConnection()
                 if (connection != null) {
-                    var query = "SELECT * FROM [Thread]"
+                    var query = "SELECT * FROM [Thread] WHERE deleted_at IS NULL"
                     var statement: Statement = connection.createStatement()
                     var resultSet: ResultSet = statement.executeQuery(query)
 
@@ -56,6 +63,7 @@ class BerandaFragment : Fragment() {
                         var judul = resultSet.getString("judul")
                         var isi = resultSet.getString("isi")
                         var created_at = resultSet.getString("created_at")
+                        var update_at = resultSet.getString("update_at")
                         var status = resultSet.getString("status")
                         var user_id = resultSet.getString("user_id")
 
