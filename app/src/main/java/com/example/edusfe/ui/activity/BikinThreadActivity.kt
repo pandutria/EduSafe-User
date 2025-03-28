@@ -30,6 +30,11 @@ class BikinThreadActivity : AppCompatActivity() {
         btnPosting = findViewById(R.id.btnPosting)
 
         btnPosting.setOnClickListener {
+            if (etJudul.text.toString() == "" || etIsi.text.toString() == "") {
+                support.msi(this, "All field must be filled")
+                return@setOnClickListener
+            }
+
             sendData(this, etJudul.text.toString(), etIsi.text.toString()).execute()
         }
 

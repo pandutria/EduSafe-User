@@ -7,5 +7,5 @@ data class Comment(
     var comment: String,
     var created_at: String,
     var update_at: String,
-    var delete_at: String
+    var delete_at: String,
 )

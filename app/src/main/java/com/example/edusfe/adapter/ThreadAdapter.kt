@@ -48,7 +48,7 @@ class ThreadAdapter(private val threadList: List<Thread>): RecyclerView.Adapter<
             holder.btnLihat.visibility = View.GONE
         }
 
-        holder.itemView.setOnClickListener {
+        holder.btnLihat.setOnClickListener {
             holder.itemView.context.startActivity(Intent(holder.itemView.context, KomentarActivity::class.java).apply {
                 putExtra("thread_id", thread.id)
             })

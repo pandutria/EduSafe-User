@@ -28,11 +28,12 @@ class CommentAdapter(private var commentList: List<Comment>): RecyclerView.Adapt
         var comment = commentList[position]
         holder.tvNama.text = "${comment.user.nama} (Kelas ${comment.user.kelas})"
         holder.tvComment.text = "Comment : ${comment.comment}"
+        holder.tvTanggal.text = "Tanggal :  " + comment.created_at
 
-        if (comment.update_at != "") {
-            holder.tvTanggal.text = "Tanggal :  " + comment.update_at
-        } else {
-            holder.tvTanggal.text = "Tanggal :  " + comment.created_at
-        }
+//        if (comment.update_at != "") {
+//            holder.tvTanggal.text = "Tanggal :  " + comment.update_at
+//        } else {
+//            holder.tvTanggal.text = "Tanggal :  " + comment.created_at
+//        }
     }
 }
