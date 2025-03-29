@@ -50,7 +50,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    class login(private val activity: LoginActivity, private val username: String, private val password: String) : AsyncTask<Void, Void, Void>() {
+    class login(private val activity: LoginActivity,
+                private val username: String,
+                private val password: String
+    ) : AsyncTask<Void, Void, Void>() {
+
         var isLogin = false
         override fun doInBackground(vararg p0: Void?): Void? {
             try {
@@ -62,6 +66,8 @@ class LoginActivity : AppCompatActivity() {
 
                     if (resultSet.next()) {
                         support.user_id = resultSet.getInt("id")
+                        support.nama = resultSet.getString("nama")
+                        support.email = resultSet.getString("email")
                         isLogin = true
 //                        Log.d("SqlServer", "Eror : ${support.user_id}")
 //                        activity.startActivity(Intent(activity, MainActivity::class.java))

@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -30,6 +31,7 @@ class KomentarActivity : AppCompatActivity() {
     lateinit var rv: RecyclerView
     lateinit var etKomentar: EditText
     lateinit var btnKomentar: Button
+    lateinit var layoutKomentar: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +41,7 @@ class KomentarActivity : AppCompatActivity() {
         rv = findViewById(R.id.rv)
         etKomentar = findViewById(R.id.etKomentar)
         btnKomentar = findViewById(R.id.btnBerikanKomentar)
+        layoutKomentar = findViewById(R.id.layoutKomentar)
 
         var thread_id = intent.getIntExtra("thread_id", 0)
         showData(this, rv, thread_id).execute()
@@ -91,7 +94,7 @@ class KomentarActivity : AppCompatActivity() {
     }
 
     class showData(
-        private var context: Context,
+        private var context: KomentarActivity,
         private val rv: RecyclerView,
         private val thread_id: Int) : AsyncTask<Void, Void, Void>() {
 
@@ -107,6 +110,7 @@ class KomentarActivity : AppCompatActivity() {
 
                     while (resultSet.next()) {
                         var comment = resultSet.getString("comment")
+
                         var user_id = resultSet.getInt("user_id")
                         var queryUser = "SELECT * FROM [User] WHERE id = $user_id"
                         var statementUser: Statement = connection.createStatement()
@@ -120,7 +124,7 @@ class KomentarActivity : AppCompatActivity() {
                             commentList.add(Comment(
                                 0,
                                 null,
-                                User(0, "", nama, "", "", kelas),
+                                User(user_id, "", nama, "", "", kelas),
                                 comment,
                                 tanggal,
                                 "",
@@ -139,7 +143,7 @@ class KomentarActivity : AppCompatActivity() {
 
         override fun onPostExecute(result: Void?) {
             super.onPostExecute(result)
-            rv.adapter = CommentAdapter(commentList)
+            rv.adapter = CommentAdapter(context, commentList)
             rv.layoutManager = LinearLayoutManager(context)
         }
 

@@ -32,7 +32,13 @@ class ThreadAdapter(private val threadList: List<Thread>): RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val thread = threadList[position]
-        holder.tvNama.text = "${thread.user.nama} (Kelas ${thread.user.kelas})"
+
+        if (thread.user.nama == support.nama) {
+            holder.tvNama.text = "Anda"
+        } else {
+            holder.tvNama.text = "${thread.user.nama} (Kelas ${thread.user.kelas})"
+        }
+
         holder.tvJudul.text = "Judul : " + thread.judul
         holder.tvisi.text = "Thread : " + thread.isi
 
